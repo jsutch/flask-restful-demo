@@ -260,8 +260,8 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -269,14 +269,15 @@
 							"raw": "{\n\t\"price\": 5.66\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/items",
+							"raw": "http://localhost:5000/item/socks",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"items"
+								"item",
+								"socks"
 							]
 						},
 						"description": "This should create one specific item, each in JSON format, by name. If the item already exists it will fail"
@@ -311,14 +312,15 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5000/items",
+							"raw": "http://localhost:5000/item/socks",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"items"
+								"item",
+								"socks"
 							]
 						},
 						"description": "This should delete one specific item, each in JSON format, by name. No two items should have the same name"
@@ -350,17 +352,23 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"price\": 17.11\n\t\n}"
+							"raw": "{\n\t\"price\": 17.11\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/items",
+							"raw": "http://localhost:5000/item/socks",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "5000",
 							"path": [
-								"items"
+								"item",
+								"socks"
 							]
 						},
 						"description": "This should create a new item or update one existing item, each in JSON format, by name. No two items should have the same name"

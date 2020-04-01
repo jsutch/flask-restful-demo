@@ -22,7 +22,7 @@ class Item(Resource):
     def get(self, name):
         for item in items:
             if item['name'] == name:
-                return {item}
+                return item
 
     def post(self, name):
         item = { 'name': name, 'price': 12.99 }
@@ -37,7 +37,7 @@ class Item(Resource):
 
 # this replaces @app.route('xxx') under Student:get   
 # Test
-api.add_resource(Test,'/item/<string:name>') 
+#api.add_resource(Test,'/item/<string:name>') 
 # Item API targets
 api.add_resource(Item,'/item/<string:name>') # e.g. http://localhost/item/mittens
 
