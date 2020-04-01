@@ -20,23 +20,22 @@ class Item(Resource):
     Flask-RESTful does not need jsonify for returns
     """
     def get(self, name):
-        for item in items:
-            if item['name'] == name:
-                return item
-            else:
-                return {'item':None}, 404 # setting return code value
+        item = next(filter(lambda x: x['name'] == name, items), None) #next() returns only the first item from filter(lambda)
+        # return {'item': item}, 200 if item is not None else 404
+        return {'item': item}, 200 if item else 404 #shortened version
 
     def post(self, name):
-        # methods to quell errors
-        #data = request.get_json(force=True) # don't look at header - coerce into json
-        #data = request.get_json(silent=True)# 
-        data = request.get_json()
-        new_item = {
+        if next(filter(lambda x: x['name'] == name, items), None) is not None:
+            return {'message': "An item with name '{}' already exists".format(name)}, 400
+        
+        data = Item.parser.parse_args()
+
+        item = {
             'name' : name,
             'price' : data['price']
             }
-        items.append(new_item)
-        return new_item, 201 
+        items.append(item)
+        return item, 201 
     
     def put(self, name):
         pass
