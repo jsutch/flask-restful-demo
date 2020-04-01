@@ -23,11 +23,13 @@ class Item(Resource):
         for item in items:
             if item['name'] == name:
                 return item
+            else:
+                return {'item':None}, 404 # setting return code value
 
     def post(self, name):
         item = { 'name': name, 'price': 12.99 }
         items.append(item)
-        return item
+        return item, 201 
     
     def put(self, name):
         pass
