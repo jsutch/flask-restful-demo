@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ class Test(Resource):
     test harness. return whatever name passed
     """
     def get(self, name):
-        return {'item':name}
+        return {'test':name}
 
 class Item(Resource):
     """
@@ -27,9 +27,16 @@ class Item(Resource):
                 return {'item':None}, 404 # setting return code value
 
     def post(self, name):
-        item = { 'name': name, 'price': 12.99 }
-        items.append(item)
-        return item, 201 
+        # methods to quell errors
+        #data = request.get_json(force=True) # don't look at header - coerce into json
+        #data = request.get_json(silent=True)# 
+        data = request.get_json()
+        new_item = {
+            'name' : name,
+            'price' : data['price']
+            }
+        items.append(new_item)
+        return new_item, 201 
     
     def put(self, name):
         pass
@@ -37,14 +44,22 @@ class Item(Resource):
     def delete(self, name):
         pass
 
-# this replaces @app.route('xxx') under Student:get   
-# Test
-#api.add_resource(Test,'/item/<string:name>') 
-# Item API targets
+class ItemList(Resource):
+    def get(self):
+        return {'items': items}
+
+# Adding resources:
+# api.add_resource(xxx) replaces @app.route('xxx') under Student:get   
+# Raw API Tester
+api.add_resource(Test,'/test/<string:name>') 
+# Application API targets
 api.add_resource(Item,'/item/<string:name>') # e.g. http://localhost/item/mittens
+api.add_resource(ItemList, '/items')
 
-
-app.run(port=5000)
+# Debug
+app.run(port=5000, debug=True)
+# Regular
+#app.run(port=5000)
 
 
 
