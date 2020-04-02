@@ -2,7 +2,11 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_jwt import JWT, jwt_required, current_identity
 
+# instantiate app
 app = Flask(__name__)
+# add secret key for auth
+app.secret_key = 'hummingbird'
+# instantiate API
 api = Api(app)
 
 # datastore
