@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_jwt import JWT, jwt_required, current_identity
+from security import authenticate, identity # implemented in security.py
 
 # instantiate app
 app = Flask(__name__)
@@ -8,6 +9,10 @@ app = Flask(__name__)
 app.secret_key = 'hummingbird'
 # instantiate API
 api = Api(app)
+
+# JWT additions
+# creates a new endpoint of /auth
+jwt = JWT(app, authenticate, identity)
 
 # datastore
 items = []
@@ -24,6 +29,7 @@ class Item(Resource):
     Main Item Class
     Flask-RESTful does not need jsonify for returns
     """
+    @jwt_required()
     def get(self, name):
         item = next(filter(lambda x: x['name'] == name, items), None) #next() returns only the first item from filter(lambda)
         # return {'item': item}, 200 if item is not None else 404

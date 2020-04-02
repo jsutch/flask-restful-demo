@@ -1,18 +1,14 @@
 from werkzeug.security import safe_str_cmp
-from user import User 
+from user import User # implemented in user.py
 
 # users database
-user = [
-    {
-        'id': 1,
-        'username': 'bob',
-        'password': 'asdf'
-    }
+users = [
+    User(1,'bob','asdf')
 ]
 
 # map dicts
-username_mapping = {u.username for u in users}
-userid_mapping = {u.id for u in users}
+username_mapping = {u.username: u for u in users}
+userid_mapping = {u.id: u for u in users}
 
 # authenticate a user
 def authenticate(username,password):
