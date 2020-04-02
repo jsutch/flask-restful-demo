@@ -29,6 +29,13 @@ class Item(Resource):
     Main Item Class
     Flask-RESTful does not need jsonify for returns
     """
+    # Move parser within item instead of function by function
+    parser = reqparse.RequestParser() #reqparser can also be used for form fields, also
+    parser.add_argument('price',
+        type=float,
+        required=True,
+        help='This field cannot be left blank'
+    )
     #@jwt_required()
     def get(self, name):
         item = next(filter(lambda x: x['name'] == name, items), None) #next() returns only the first item from filter(lambda)
@@ -40,12 +47,6 @@ class Item(Resource):
         if next(filter(lambda x: x['name'] == name, items), None) is not None:
             return {'message': "An item with name '{}' already exists".format(name)}, 400
 
-        parser = reqparse.RequestParser() #reqparser can also be used for form fields, also
-        parser.add_argument('price',
-            type=float,
-            required=True,
-            help='This field cannot be left blank'
-        )
         data = parser.parse_args()
 
         item = {
@@ -69,12 +70,6 @@ class Item(Resource):
         """
         Itempotent. Can create or update an item.
         """
-        parser = reqparse.RequestParser() #reqparser can also be used for form fields, also
-        parser.add_argument('price',
-            type=float,
-            required=True,
-            help='This field cannot be left blank'
-        )
         data = parser.parse_args()
 
         item = next(filter(lambda x: x['name'] == name, items), None)
