@@ -35,6 +35,7 @@ class Item(Resource):
         # return {'item': item}, 200 if item is not None else 404
         return {'item': item}, 200 if item else 404 #shortened version
 
+    @jwt_required()
     def post(self, name):
         if next(filter(lambda x: x['name'] == name, items), None) is not None:
             return {'message': "An item with name '{}' already exists".format(name)}, 400
@@ -54,6 +55,7 @@ class Item(Resource):
         pass
 
 class ItemList(Resource):
+    @jwt_required()
     def get(self):
         return {'items': items}
 
