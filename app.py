@@ -47,7 +47,7 @@ class Item(Resource):
         if next(filter(lambda x: x['name'] == name, items), None) is not None:
             return {'message': "An item with name '{}' already exists".format(name)}, 400
 
-        data = parser.parse_args()
+        data = Item.parser.parse_args()
 
         item = {
             'name' : name,
@@ -70,7 +70,7 @@ class Item(Resource):
         """
         Itempotent. Can create or update an item.
         """
-        data = parser.parse_args()
+        data = Item.parser.parse_args()
 
         item = next(filter(lambda x: x['name'] == name, items), None)
         if item is None:
